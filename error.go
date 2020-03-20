@@ -24,12 +24,11 @@ func (m Error) Error() string {
 }
 
 // Wrap annotates the given error with a stack trace
-func Wrap(err error) Error {
-	stackTrace := ""
-	if err != nil {
-		stackTrace = getStackTrace()
+func Wrap(err error) error {
+	if err == nil {
+		return nil
 	}
-	return Error{Err: err, StackTrace: stackTrace}
+	return Error{Err: err, StackTrace: getStackTrace()}
 }
 
 func getStackTrace() string {
