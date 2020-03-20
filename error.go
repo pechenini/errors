@@ -17,12 +17,19 @@ type Error struct {
 }
 
 func (m Error) Error() string {
+	if m.Err == nil {
+		return ""
+	}
 	return m.Err.Error() + m.StackTrace
 }
 
 // Wrap annotates the given error with a stack trace
 func Wrap(err error) Error {
-	return Error{Err: err, StackTrace: getStackTrace()}
+	stackTrace := ""
+	if err != nil {
+		stackTrace = getStackTrace()
+	}
+	return Error{Err: err, StackTrace: stackTrace}
 }
 
 func getStackTrace() string {
